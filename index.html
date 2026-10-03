@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie · taste the difference</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #fefaf5;  /* warm creamy background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        /* main app card */
+        .food-app {
+            max-width: 1200px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 3.5rem;
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 2rem 2rem 1.8rem;
+            transition: all 0.2s;
+        }
+
+        /* header section */
+        .app-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .logo-icon {
+            background: #ff6b35;
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.5rem;
+            font-size: 1.6rem;
+            box-shadow: 0 8px 14px rgba(255, 107, 53, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #2d2a24;
+        }
+
+        .logo-text span {
+            color: #ff6b35;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .location-pill {
+            background: #f5f0ea;
+            padding: 0.7rem 1.2rem;
+            border-radius: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4a443c;
+            font-weight: 500;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .location-pill i {
+            color: #ff6b35;
+        }
+
+        .cart-btn {
+            background: #2d2a24;
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: default;
+            transition: 0.2s;
+            position: relative;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-btn i {
+            pointer-events: none;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ff6b35;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 1.3rem;
+            height: 1.3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        /* search bar */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f5f0ea;
+            border-radius: 3rem;
+            padding: 0.4rem 0.4rem 0.4rem 1.5rem;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #ff6b35;
+            background: #fff;
+            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.1);
+        }
+
+        .search-wrapper i {
+            color: #b9aa9a;
+            font-size: 1.1rem;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            outline: none;
+            color: #2d2a24;
+            font-weight: 400;
+        }
+
+        .search-wrapper input::placeholder {
+            color: #b9aa9a;
+            font-weight: 400;
+        }
+
+        .filter-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 2.5rem;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: default;
+            white-space: nowrap;
+            transition: 0.15s;
+            box-shadow: 0 6px 12px rgba(255, 107, 53, 0.25);
+        }
+
+        /* categories */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .category-chip {
+            background: #f5f0ea;
+            color: #4a443c;
+            padding: 0.7rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.1s;
+            border: 1px solid transparent;
+            cursor: default;
+            white-space: nowrap;
+        }
+
+        .category-chip i {
+            color: #b9aa9a;
+            font-size: 0.9rem;
+        }
+
+        .category-chip.active {
+            background: #2d2a24;
+            color: white;
+        }
+
+        .category-chip.active i {
+            color: #ffb28b;
+        }
+
+        /* featured heading */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.4rem;
+        }
+
+        .section-title h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1f1d1a;
+        }
+
+        .section-title a {
+            color: #ff6b35;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* food grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .food-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.2rem 1rem 1.2rem;
+            box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: default;
+            border: 1px solid #f0e8e0;
+        }
+
+        .food-card:hover {
+            box-shadow: 0 20px 28px -12px rgba(255, 107, 53, 0.15), 0 0 0 1px #ff6b35;
+            transform: translateY(-3px);
+        }
+
+        .food-img {
+            width: 5.5rem;
+            height: 5.5rem;
+            background: #fef3e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: 0.2s;
+            box-shadow: 0 6px 12px rgba(255, 107, 53, 0.1);
+        }
+
+        .food-card:hover .food-img {
+            transform: scale(1.03);
+            background: #ffe8db;
+        }
+
+        .food-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1f1d1a;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+        }
+
+        .food-desc {
+            font-size: 0.8rem;
+            color: #9a8c7e;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.2rem;
+            width: 100%;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #2d2a24;
+        }
+
+        .price small {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b9aa9a;
+            margin-left: 2px;
+        }
+
+        .add-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: default;
+            transition: 0.15s;
+            box-shadow: 0 6px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .add-btn i {
+            pointer-events: none;
+        }
+
+        .food-card:hover .add-btn {
+            background: #e05a2a;
+            transform: scale(1.05);
+        }
+
+        /* banner / promo */
+        .promo-banner {
+            background: linear-gradient(135deg, #2d2a24 0%, #3f3a33 100%);
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            margin-top: 0.6rem;
+            box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid #4a443c;
+        }
+
+        .promo-text h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .promo-text h3 i {
+            color: #ff6b35;
+            margin-right: 0.4rem;
+        }
+
+        .promo-text p {
+            color: #cbbeb0;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .promo-code {
+            background: #ff6b35;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            font-size: 1rem;
+            box-shadow: 0 8px 14px rgba(255, 107, 53, 0.3);
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* responsive fine-tune */
+        @media (max-width: 600px) {
+            .food-app {
+                padding: 1.5rem 1.2rem;
+                border-radius: 2.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+            }
+
+            .location-pill {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.9rem;
+            }
+
+            .filter-btn span {
+                display: none;
+            }
+
+            .filter-btn {
+                padding: 0.8rem 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .promo-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .promo-code {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="food-app">
+        <!-- header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="logo-text">food<span>ie</span></div>
+            </div>
+            <div class="header-actions">
+                <div class="location-pill">
+                    <i class="fas fa-map-pin"></i> Downtown, NY
+                </div>
+                <div class="cart-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge">2</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- search -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for dishes, restaurants...">
+                <button class="filter-btn">
+                    <i class="fas fa-sliders-h"></i> <span>Filters</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- categories -->
+        <div class="categories">
+            <div class="category-chip active">
+                <i class="fas fa-fire"></i> Popular
+            </div>
+            <div class="category-chip">
+                <i class="fas fa-pizza-slice"></i> Pizza
+            </div>
+            <div class="category-chip">
+                <i class="fas fa-hamburger"></i> Burgers
+            </div>
+            <div class="category-chip">
+                <i class="fas fa-fish"></i> Sushi
+            </div>
+            <div class="category-chip">
+                <i class="fas fa-leaf"></i> Vegan
+            </div>
+            <div class="category-chip">
+                <i class="fas fa-cocktail"></i> Drinks
+            </div>
+        </div>
+
+        <!-- featured dishes -->
+        <div class="section-title">
+            <h2>Featured dishes</h2>
+            <a href="#">View all <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="food-grid">
+            <!-- card 1 -->
+            <div class="food-card">
+                <div class="food-img">🍕</div>
+                <div class="food-name">Truffle Pizza</div>
+                <div class="food-desc">Mushrooms, mozzarella, truffle oil</div>
+                <div class="price-row">
+                    <span class="price">$14.90 <small></small></span>
+                    <div class="add-btn"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+            <!-- card 2 -->
+            <div class="food-card">
+                <div class="food-img">🍔</div>
+                <div class="food-name">Smash Burger</div>
+                <div class="food-desc">Double beef, cheddar, caramelized onion</div>
+                <div class="price-row">
+                    <span class="price">$12.50 <small></small></span>
+                    <div class="add-btn"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+            <!-- card 3 -->
+            <div class="food-card">
+                <div class="food-img">🍣</div>
+                <div class="food-name">Salmon Sushi</div>
+                <div class="food-desc">Fresh salmon, avocado, sesame</div>
+                <div class="price-row">
+                    <span class="price">$18.20 <small></small></span>
+                    <div class="add-btn"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+            <!-- card 4 -->
+            <div class="food-card">
+                <div class="food-img">🥗</div>
+                <div class="food-name">Vegan Bowl</div>
+                <div class="food-desc">Quinoa, chickpeas, kale, tahini</div>
+                <div class="price-row">
+                    <span class="price">$11.90 <small></small></span>
+                    <div class="add-btn"><i class="fas fa-plus"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- promo banner -->
+        <div class="promo-banner">
+            <div class="promo-text">
+                <h3><i class="fas fa-tag"></i> 30% off first order</h3>
+                <p>Use code <strong>TASTY30</strong> at checkout · free delivery</p>
+            </div>
+            <div class="promo-code">
+                TASTY30
+            </div>
+        </div>
+    </div>
+</body>
+</html>
